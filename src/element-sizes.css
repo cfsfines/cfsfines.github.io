@@ -1,0 +1,52 @@
+#my-names {
+    font-size: 1.5em;
+}
+
+#name {
+    font-size: 5em;
+}
+
+#bio {
+    font-size: 2em;
+}
+
+#title-button-div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* flex-direction: row; */
+    /* height: 10em; */
+    gap: 0.5em;
+    object-fit: contain;
+}
+
+.header-size {
+    font-size: 2.5em;
+    letter-spacing: 4px;
+}
+
+.normal-text-size {
+    font-size: 1.5em;
+    letter-spacing: 1px;
+}
+
+.box-title {
+    font-size: 1.5em;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+.box-content-size {
+    font-size: 1.3em;
+    letter-spacing: 2px;
+}
+
+.box-sub-size {
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.box-sub-sub-size {
+    font-size: 1em;
+    font-weight: 500;
+}

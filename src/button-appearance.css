@@ -1,0 +1,134 @@
+/* icons from https://devicon.dev/ */
+
+.github{
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg);
+    width: 50px;
+    height: 50px;
+}
+
+#linkedinProfile {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linkedin/linkedin-original.svg);
+    /* background-size: contain; */
+    width: 50px;
+    height: 50px;
+}
+
+#idaPro {
+    background: url(../img/ida.png);
+    background-size: 4vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#matlab {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/matlab/matlab-original.svg);
+    /* background-size: 3vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#unity {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-plain.svg);
+    /* background-size: 3vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#kali {
+    background: url(../img/kali.png);
+    background-size: 4vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#wireshark {
+    background: url(../img/wireshark.svg);
+    background-size: 4.5vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#ubuntu {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-original.svg);
+    background-size: 3vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#msaccess {
+    background: url(../img/msaccess.svg);
+    background-size: 3vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#rockwell {
+    background: url(../img/rockwell.jpg);
+    background-size: 3vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#java {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg);
+    /* background-size: 3vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#spring {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg);
+    /* background-size: 3vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#postgresql {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg);
+    /* background-size: 3vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#maven {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/maven/maven-original.svg);
+    background-size: 3vw;
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#postman {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg);
+    /* background-size: 2vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#eclipse {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/eclipse/eclipse-original.svg);
+    /* background-size: 2vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
+
+#csharp {
+    background: url(https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg);
+    /* background-size: 2vw; */
+    background-position: center;
+    width: 50px;
+    height: 50px;
+}
