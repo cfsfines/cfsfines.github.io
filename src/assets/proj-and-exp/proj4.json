@@ -1,0 +1,30 @@
+{
+    "Title": "Who's Who, Spotify Guessing Game",
+    "Company": "Cook Systems",
+    "Dates": "September 2024",
+    "bulletPoints": [
+        "Fetched artist data filtered by genre and randomly selected a track from an artist for the user to guess",
+        "Tested and handled null returns from the API, creating exception methods to retry fetch requests",
+        "Played audio utilizing the HTMLAudioElement interface to pause, play, and adjust the volume",
+        "Integrated persistend data for scoring across multiple local sessions"
+    ],
+    "Demo": "https://github.com/cfsfines/whos-who",
+    "toolsUsed": [
+        {
+            "src": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+            "alt": "javascript"
+        },
+        {
+            "src": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/angularjs/angularjs-original.svg",
+            "alt": "angular"
+        },
+        {
+            "src": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg",
+            "alt": "githubIcon"
+        },
+        {
+            "src": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg",
+            "alt": "vscode"
+        }
+    ]
+}
