@@ -4,9 +4,9 @@
     "Dates": "July 2022 - August 2022",
     "bulletPoints": [
         "Developed and published a mobile application commissioned by the University of the Pacific",
-        "Led an interdisciplinary team through the analysis, implementation, and testing/integration phases of the project",
-        "Translated project features and requirements into implemented solutions using C# in the Unity engine",
-        "Resolved bugs and issues through GitHub"
+        "Led an interdisciplinary team of 8 in creating a mobile application utilizing the Unity game engine and Scrum framework",
+        "Translated project wireframes and features into interactive implementations to meet project requirements",
+        "Resolved project impediments through team feedback, unit testing, and debugging"
     ],
     "Demo": "https://scholarlycommons.pacific.edu/pac-2022/",
     "toolsUsed": [

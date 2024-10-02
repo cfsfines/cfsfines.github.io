@@ -3,10 +3,10 @@
     "Company": "Cook Systems",
     "Dates": "September 2024",
     "bulletPoints": [
+        "A web application built with Angular, leveraging the Spotify API to fetch track information to quiz users on recognition",
         "Fetched artist data filtered by genre and randomly selected a track from an artist for the user to guess",
-        "Tested and handled null returns from the API, creating exception methods to retry fetch requests",
-        "Played audio utilizing the HTMLAudioElement interface to pause, play, and adjust the volume",
-        "Integrated persistend data for scoring across multiple local sessions"
+        "Tested and handled null returns from the API, creating various exception methods to retry fetch requests",
+        "Integrated persistent data for scoring across multiple local sessions"
     ],
     "Demo": "https://github.com/cfsfines/whos-who",
     "toolsUsed": [

@@ -3,9 +3,9 @@
     "Company": "Cook Systems",
     "Dates": "August 2024",
     "bulletPoints": [
-        "Developed a large-scale backend API for a Twitter-like social media page in Java and Spring Boot ",
-        "Demonstrated test-driven development by incorporating black-box testing with Postman to ensure proper endpoint functionality",
-        "Resolved project issues and blockers by conducting code reviews for pull requests on GitHub"
+        "Composed relational database schema connecting 7 entities that served as the foundation for the API",
+        "Identified invalid HTTP requests with data transfer objects by creating and returning various custom exception handling",
+        "Enhanced collaboration and communication skills by working closely with teammates in pair-programming sessions"
     ],
     "Demo": "https://github.com/cfsfines/social-media-api",
     "toolsUsed": [

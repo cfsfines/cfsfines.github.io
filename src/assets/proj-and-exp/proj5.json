@@ -4,9 +4,9 @@
     "Dates": "September 2024",
     "bulletPoints": [
         "A full-stack web application made for companies to manage teams, announcements, and projects",
-        "Implemented API endpoints of essential entities that will be modified and displayed to the end user",
+        "Implemented 6 API endpoints of essential entities that will be modified and displayed to the end user",
         "Translated mock-up components into interactive implementations to meet project requirements",
-        "Integrated back-end functionality into the front-end webpages to accurately represent user data"
+        "Integrated back-end functionality into the front-end web-pages to accurately represent user data"
     ],
     "Demo": "https://github.com/cfsfines/cooksys-company-onboarding",
     "toolsUsed": [
