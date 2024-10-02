@@ -15,7 +15,7 @@ import exp2 from "./assets/proj-and-exp/exp2.json"
 import exp3 from "./assets/proj-and-exp/exp3.json"
 import eduMS from "./assets/education/eduMS.json"
 import eduBS from "./assets/education/eduBS.json"
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const StyledCenterContainer = styled.div`
     text-align: center;
@@ -42,25 +42,90 @@ const UopLogo = styled.img`
 width: 200px;
 `
 
+const NavHeader = styled.div`
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 7vh;
+    background: #8590A2;
+    border-bottom: 5px solid #626F86;
+    z-index: 1;
+`
+
+const NavContainer = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-direction: row;
+    width: 35%;
+    margin-right: 2%;
+`
+
+const NavElement = styled.a`
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    border: none;
+    color: white;
+    text-decoration: none;
+    &:hover {
+      filter: brightness(75%);
+    }
+`
+
 function App() {
-  const projList = [proj1, proj2, proj3, proj4, proj5]
+  const projList = [proj5, proj4, proj1, proj2, proj3]
   const expList = [exp1, exp2, exp3]
 
   const [currProj, updateCurrProj] = useState(proj5)
   const [currExp, updateCurrExp] = useState(exp1)
 
+  const aboutMeRef = useRef(null);
+  const projectsRef = useRef(null);
+  const experienceRef = useRef(null);
+  const educationRef = useRef(null);
+  const scrollToRef = (ref) => window.scrollTo({ top: ref.current.offsetTop - 120, behavior: 'smooth' });
+
   return (
     <>
+
+      <NavHeader>
+        <NavContainer>
+          <div>
+            <NavElement onClick={() => scrollToRef(aboutMeRef)} >About Me</NavElement>
+          </div>
+          <div>
+            <NavElement onClick={() => scrollToRef(projectsRef)} >Projects</NavElement>
+          </div>
+          <div>
+            <NavElement onClick={() => scrollToRef(experienceRef)} >Experience</NavElement>
+          </div>
+          <div>
+            <NavElement onClick={() => scrollToRef(educationRef)} >Education</NavElement>
+          </div>
+        </NavContainer>
+      </NavHeader>
+
+
       <HeroContainer />
       <StyledCenterContainer>
-
-        <TitleContainer id="about-me-jump" title={'About Me'} description={''} />
+        <div ref={aboutMeRef} />
+        <TitleContainer title={'About Me'} description={''} />
         <AboutMe />
 
         <Spacer />
 
         <StyledCardContainer>
-          <TitleContainer id="projects-jump" title={'Projects'} description={'My ability to build high quality software and solutions with real-world applications'} />
+          <div ref={projectsRef} />
+          <TitleContainer title={'Projects'} description={'My ability to build high quality software and solutions with real-world applications'} />
           <ButtonContainer currProj={currProj} updateCurrProj={updateCurrProj} buttons={projList} />
           <InfoContainer info={currProj} />
         </StyledCardContainer>
@@ -68,6 +133,7 @@ function App() {
         <Spacer2 />
 
         <StyledCardContainer>
+          <div ref={experienceRef} />
           <TitleContainer id="experience-jump" title={'Experience'} description={'My involvement in the office'} />
           <ButtonContainer currProj={currExp} updateCurrProj={updateCurrExp} buttons={expList} />
           <InfoContainer info={currExp} />
@@ -76,6 +142,7 @@ function App() {
         <Spacer2 />
 
         <StyledCardContainer>
+          <div ref={educationRef} />
           <TitleContainer id="education-jump" title={'Education'} description={'The foundation of my technical expertise'} />
           <InfoContainer info={eduMS} />
           <InfoContainer info={eduBS} />
