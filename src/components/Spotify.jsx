@@ -13,6 +13,16 @@ const Spotify = () => {
     navigate("/spotify/play");
   };
 
+  /*
+
+    // TODO: create common styling across all three pages
+        - page title
+        - button container
+        - colors
+        - fonts 
+
+  */
+
   return (
     <>
       {location.pathname === "/spotify" && (

@@ -7,7 +7,7 @@ const PlaySongs = () => {
   const navigate = useNavigate();
   const [playlistData, setPlaylistData] = useState(null);
   const [isPlaylistDataLoaded, setIsPlaylistDataLoaded] = useState(false);
-  const [currTrackList, setCurrTrackList] = useState(0);
+  const [currTrackList, setCurrTrackList] = useState([]);
   const [currRoundTrack, setCurrRoundTrack] = useState(null);
   const [audioComponents, setAudioComponents] = useState(false);
   const [currAudio, setCurrAudio] = useState(null);
@@ -17,11 +17,6 @@ const PlaySongs = () => {
   const [showContinueButton, setShowContinueButton] = useState(true);
   const [continueButtonText, setContunueButtonText] = useState("Begin");
   const [choiceMessage, setChoiceMessage] = useState("");
-
-  /*
-    TODO: audio still plays when the back button is pressed
-  */
-
   const [currentTime, setCurrentTime] = useState(0);
 
   /*
@@ -35,20 +30,43 @@ const PlaySongs = () => {
   }, [currAudio]);
 
   /*
-    Return to the home screen
-  */
-  const returnToHome = () => {
-    unloadHowler();
-    navigate("/spotify");
-    saveVolumeSetting();
-  };
-
-  /*
     Save the volume setting
   */
   const saveVolumeSetting = useCallback(() => {
     localStorage.setItem("volume", JSON.stringify(volume));
   }, [volume]);
+
+  /*
+    Return to the home screen
+  */
+  const returnToHome = () => {
+    unloadHowler();
+    saveVolumeSetting();
+    navigate("/spotify");
+  };
+
+  /*
+    If the user clicks the back button, unload the audio.
+    this is a hacky way to get this to work because popstate wont fire as expected.
+    so i manually pushed a history state for popstate to fire when the back button is triggered
+    so it can stop the audio and save the volume setting
+    https://stackoverflow.com/questions/29500484/window-onpopstate-is-not-working-nothing-happens-when-i-navigate-back-to-page
+  */
+
+  useEffect(() => {
+    const handlePopState = (event) => {
+      unloadHowler();
+      saveVolumeSetting();
+      navigate("/spotify");
+    };
+
+    window.history.pushState({}, "", "/spotify/play");
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [navigate, saveVolumeSetting, unloadHowler]);
 
   /*
     Filter out null preview urls
@@ -271,9 +289,9 @@ const PlaySongs = () => {
         </div>
       )}
 
-      {!currRoundTrack && currTrackList.length === 0 && <div>no more songs!</div>}
+      {!currRoundTrack && isPlaylistDataLoaded && currTrackList.length === 0 && <div>no more songs!</div>}
 
-      {showContinueButton && (
+      {showContinueButton && currTrackList.length !== 0 && (
         <div>
           <p>{choiceMessage}</p>
           <button onClick={startRound}>{continueButtonText}</button>
