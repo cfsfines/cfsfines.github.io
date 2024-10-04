@@ -77,7 +77,7 @@ const SearchPlaylist = ({ token }) => {
 
   const { fetchPlaylist } = usePlaylistHook(token, "playlists", setPlaylistData, setError, setLoading);
 
-  const playlistID = "0Lqa1dNY9lMyS5JZTcpmmb";
+  const playlistID = "2TgYLH4cs29NT2BNo0XsuX";
   const params = {};
 
   const handleClick = () => {
@@ -96,6 +96,7 @@ const SearchPlaylist = ({ token }) => {
     TODO: show the thumbnail of the playlist loaded.
       - create a text input for both the secret key and the playlist link
       - loading screen styling when fetching playlists
+      - give indication on how to get spotify playlist id, and the condition that they need to be public
   */
 
   return (

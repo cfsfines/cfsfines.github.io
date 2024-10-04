@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import loadSavedPlaylistData from "../services/sharedFunctions.js";
 import { Howl, Howler } from "howler";
-import { click } from "@testing-library/user-event/dist/click.js";
 
 const PlaySongs = () => {
   const navigate = useNavigate();
@@ -13,12 +12,27 @@ const PlaySongs = () => {
   const [audioComponents, setAudioComponents] = useState(false);
   const [currAudio, setCurrAudio] = useState(null);
   const [volume, setVolume] = useState(0.25);
+  const [currChoices, setCurrChoices] = useState(null);
+  const [currCorrectChoice, setCurrCorrectChoice] = useState({});
+  const [showContinueButton, setShowContinueButton] = useState(true);
+  const [continueButtonText, setContunueButtonText] = useState("Begin");
+  const [choiceMessage, setChoiceMessage] = useState("");
 
   /*
-    TODO: save current volume position into local storage
+    TODO: audio still plays when the back button is pressed
   */
 
   const [currentTime, setCurrentTime] = useState(0);
+
+  /*
+    Unload howler object
+  */
+  const unloadHowler = useCallback(() => {
+    if (currAudio) {
+      currAudio.unload();
+      setCurrAudio(null);
+    }
+  }, [currAudio]);
 
   /*
     Return to the home screen
@@ -26,7 +40,15 @@ const PlaySongs = () => {
   const returnToHome = () => {
     unloadHowler();
     navigate("/spotify");
+    saveVolumeSetting();
   };
+
+  /*
+    Save the volume setting
+  */
+  const saveVolumeSetting = useCallback(() => {
+    localStorage.setItem("volume", JSON.stringify(volume));
+  }, [volume]);
 
   /*
     Filter out null preview urls
@@ -37,60 +59,77 @@ const PlaySongs = () => {
   }, []);
 
   /*
-    Remove a song from the currTrackList
-  */
-  const removeTrack = (trackIndex) => {
-    setCurrTrackList((prevTrackList) => {
-      const updatedTrackList = [...prevTrackList];
-      updatedTrackList.splice(trackIndex, 1);
-      return updatedTrackList;
-    });
-  };
-
-  /*
-    Return a random song from currTrackList
+    Return a random song from currTrackList. 
   */
   const getRandomTrack = (currentTracks) => {
     if (currentTracks && currentTracks.length > 0) {
       const randomIndex = Math.floor(Math.random() * currentTracks.length);
       const randomTrack = currentTracks[randomIndex];
-      removeTrack(randomIndex);
-      return randomTrack;
+      const updatedTrackList = currentTracks.filter((_, index) => index !== randomIndex);
+      return { randomTrack, updatedTrackList };
     }
     return null;
+  };
+
+  /*
+    Return random songs from currTrackList. These will be the incorrect answers.
+    If there is less than 4 tracks, just return the entire track list
+  */
+  const getRandomTracks = (currentTracks, remainingTracks) => {
+    const uniqueIndexes = new Set();
+    if (remainingTracks.length <= 4) {
+      return remainingTracks;
+    } else {
+      while (uniqueIndexes.size < 4) {
+        const randomIndex = Math.floor(Math.random() * currentTracks.length);
+        uniqueIndexes.add(randomIndex);
+      }
+    }
+    const randomTracks = Array.from(uniqueIndexes).map((index) => currentTracks[index]);
+    return randomTracks;
+  };
+
+  /*
+    Fisher-Yates shuffle algorithm.
+  */
+  const shuffleArray = (array) => {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
   };
 
   /*
     Start the round
   */
   const startRound = () => {
-    const randomTrack = getRandomTrack(currTrackList);
+    // if there is no more songs, hide everything
+    if (currTrackList.length === 0) {
+      setCurrRoundTrack(null);
+      setShowContinueButton(false);
+      setCurrChoices(null);
+      setAudioComponents(false);
+      return;
+    }
+
+    const { randomTrack: correctRandomTrack, updatedTrackList } = getRandomTrack(currTrackList);
     setAudioComponents(true);
-    if (randomTrack) {
-      setCurrRoundTrack(randomTrack);
-      createHowler(randomTrack);
+    setShowContinueButton(false);
+    if (correctRandomTrack) {
+      setCurrRoundTrack(correctRandomTrack);
+      createHowler(correctRandomTrack);
 
-      /*
-        TODO: grab four random tracks from currTrackList and get their artists
-          - put them in an array probably as another state, shuffle it, render them onto buttons
-          - implement logic to determine the correct answer and display if the selected item was correct or not
-              - show the correct answer if wrong
+      const choices = [...getRandomTracks(updatedTrackList, updatedTrackList), correctRandomTrack];
+      const shuffledChoices = shuffleArray(choices);
+      setCurrChoices(shuffledChoices);
+      setCurrCorrectChoice(correctRandomTrack);
 
-        when the user presses the back button, the audio still plays. fix that.
-      */
+      setCurrTrackList(updatedTrackList);
     } else {
       setCurrRoundTrack(null);
       setAudioComponents(false);
-    }
-  };
-
-  /*
-    Unload howler object
-  */
-  const unloadHowler = () => {
-    if (currAudio) {
-      currAudio.unload();
-      setCurrAudio(null);
     }
   };
 
@@ -104,16 +143,28 @@ const PlaySongs = () => {
       src: [`${track.preview_url}`],
       html5: true,
     });
+    song.volume(volume);
     setCurrAudio(song);
+  };
+
+  /*
+    Load saved volume setting
+  */
+  const loadVolume = () => {
+    const volumeSetting = localStorage.getItem("volume");
+    if (volumeSetting) {
+      const parsedVolumeSetting = JSON.parse(volumeSetting);
+      setVolume(parsedVolumeSetting);
+    }
   };
 
   /*
     First, load the songs from local storage
   */
   useEffect(() => {
-    console.log("loading songs from local storage");
     const isLoaded = loadSavedPlaylistData(setPlaylistData);
     setIsPlaylistDataLoaded(isLoaded);
+    loadVolume();
   }, []);
 
   /*
@@ -121,7 +172,6 @@ const PlaySongs = () => {
   */
   useEffect(() => {
     if (isPlaylistDataLoaded) {
-      console.log("filtering tracks");
       filterTracks(playlistData);
     }
   }, [filterTracks, isPlaylistDataLoaded, playlistData]);
@@ -156,13 +206,14 @@ const PlaySongs = () => {
       }, 200);
 
       return () => {
+        setCurrentTime(0);
         clearInterval(intervalId);
       };
     }
   }, [currAudio]);
 
   /*
-    When the user clicks on the progress bar, jump to that position in the songks
+    When the user clicks on the progress bar, jump to that position in the song
   */
   const handleProgressClick = (event) => {
     const progressBar = event.target;
@@ -172,10 +223,21 @@ const PlaySongs = () => {
     currAudio.seek(clickPosition);
   };
 
+  const handleAnswer = (e) => {
+    console.log(e.target.value);
+    if (e.target.value === currCorrectChoice.track.name) {
+      setContunueButtonText("Next Song");
+      setChoiceMessage("Correct!");
+    } else {
+      setContunueButtonText("Restart");
+      setChoiceMessage("Incorrect!");
+    }
+    setShowContinueButton(true);
+  };
+
   /*
     TODO:
-      - conditional rendering to hide the continue button during an unanswered round
-      - create separate component for styling and stuff once mvp is working
+      - STYLING
 
   */
 
@@ -184,7 +246,6 @@ const PlaySongs = () => {
       <button onClick={returnToHome}>return</button>
 
       {currRoundTrack && <div>{currRoundTrack.track.name}</div>}
-      {audioComponents && <button onClick={pauseAndPlay}>play song</button>}
 
       {audioComponents && (
         <>
@@ -196,12 +257,28 @@ const PlaySongs = () => {
             <label htmlFor="progress">Progress: </label>
             <progress id="progress" value={currentTime} max={currAudio.duration()} onClick={handleProgressClick}></progress>
           </div>
+          <button onClick={pauseAndPlay}>play song</button>
         </>
+      )}
+
+      {currChoices && (
+        <div>
+          {currChoices.map((choice) => (
+            <button key={`${choice.added_at}_${choice.track.name}`} value={choice.track.name} onClick={handleAnswer}>
+              {choice.track.name}
+            </button>
+          ))}
+        </div>
       )}
 
       {!currRoundTrack && currTrackList.length === 0 && <div>no more songs!</div>}
 
-      <button onClick={startRound}>begin</button>
+      {showContinueButton && (
+        <div>
+          <p>{choiceMessage}</p>
+          <button onClick={startRound}>{continueButtonText}</button>
+        </div>
+      )}
 
       {!isPlaylistDataLoaded && <div>No playlist data found. Please set playlist data.</div>}
     </>
