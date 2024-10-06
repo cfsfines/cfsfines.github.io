@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import skills from "../assets/skills.json";
-import StyledButton from "./StyledButton";
+import { StyledButton } from './SharedStyles'
 
 const ResizedIcons = styled.img`
   width: 50px;

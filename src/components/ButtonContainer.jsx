@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import StyledButton from "./StyledButton";
+import { StyledButton } from "./SharedStyles";
 
 const StyledButtonContainer = styled.div`
   display: flex;

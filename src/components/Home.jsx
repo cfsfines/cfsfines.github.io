@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState } from "react";
 import HeroContainer from "./HeroContainer";
 import InfoContainer from "./InfoContainer";
-import StyledCardContainer from "./CardContainer";
+import {StyledCardContainer} from "./SharedStyles";
 import ButtonContainer from "./ButtonContainer";
 import TitleContainer from "./TitleContainer";
 import AboutMe from "../assets/aboutme";

@@ -1,15 +1,15 @@
-import styled from "styled-components";
 import fetchFromSpotify from "../services/spotify.ts";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import loadSavedPlaylistData from "../services/sharedFunctions.js";
+import { TitleText, StyledSpotifyButton, GenericFlexContainer, SpotifyBodyContainer, InputField } from "./SharedStyles";
 
 /*
     TODO: add type safety by creating interfaces of the entire return object.
     refer to the docs on its shape and types: https://developer.spotify.com/documentation/web-api/reference/get-playlist
 */
-const usePlaylistHook = (token, endpoint, setPlaylistData, setError, setLoading) => {
+const usePlaylistHook = (token, endpoint, setPlaylistData, setError, setLoading, setInputValue) => {
   const fetchPlaylist = async (playlistID, params) => {
     setLoading(true);
     let combinedFetches = {
@@ -54,6 +54,8 @@ const usePlaylistHook = (token, endpoint, setPlaylistData, setError, setLoading)
         Update the state of the fetched playlist data and save it into local storage after all requests are complete
       */
       setPlaylistData(combinedFetches);
+      setError(null);
+      setInputValue("");
       localStorage.setItem("playlistData", JSON.stringify(combinedFetches));
     } catch (err) {
       setError(err);
@@ -69,23 +71,23 @@ const SearchPlaylist = ({ token }) => {
   const [playlistData, setPlaylistData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [inputValue, setInputValue] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     loadSavedPlaylistData(setPlaylistData);
   }, []);
 
-  const { fetchPlaylist } = usePlaylistHook(token, "playlists", setPlaylistData, setError, setLoading);
+  const { fetchPlaylist } = usePlaylistHook(token, "playlists", setPlaylistData, setError, setLoading, setInputValue);
 
-  const playlistID = "2TgYLH4cs29NT2BNo0XsuX";
   const params = {};
 
   const handleClick = () => {
-    if (playlistData && playlistData.id === playlistID) {
-      console.log("playlist already saved");
+    if (playlistData && playlistData.id === inputValue) {
+      setError(null);
       return;
     }
-    fetchPlaylist(playlistID, params);
+    fetchPlaylist(inputValue, params);
   };
 
   const returnToHome = () => {
@@ -101,11 +103,25 @@ const SearchPlaylist = ({ token }) => {
 
   return (
     <>
-      <button onClick={handleClick}>get playlists</button>
-      <button onClick={returnToHome}>return</button>
-      {loading && <div>Loading...</div>}
-      {error && <div>Error: {error.message}</div>}
-      {playlistData && playlistData.tracks.items.map((item) => <div key={`${item.added_at}_${item.track.name}`}>{item.track.name}</div>)}
+      <SpotifyBodyContainer>
+        <TitleText>Settings</TitleText>
+        <GenericFlexContainer>
+          <GenericFlexContainer flexDirection="row">
+            <InputField
+              id="spotifyPlaylistId"
+              placeholder="Enter Spotify Playlist ID"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+            />
+            <StyledSpotifyButton onClick={handleClick}>Fetch Playlist</StyledSpotifyButton>
+          </GenericFlexContainer>
+          <StyledSpotifyButton onClick={returnToHome}>Return</StyledSpotifyButton>
+        </GenericFlexContainer>
+        {playlistData && playlistData.id === inputValue && <p>Playlist already loaded!</p>}
+        {error && (!playlistData || playlistData.id !== inputValue) && <p>Fetch Failed! {error.message}</p>}
+        {playlistData ? <p>Currently loaded playlist: {playlistData.name}</p> : <p>No playlist loaded!</p>}
+        {loading && <p>Loading...</p>}
+      </SpotifyBodyContainer>
     </>
   );
 };
