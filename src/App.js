@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Home from "./components/Home";
 import Spotify from './components/Spotify';
 import SearchPlaylist from './components/SearchPlaylist';
@@ -15,7 +15,9 @@ function App() {
     <>
       {location.pathname.startsWith('/spotify') && <BackgroundColor />}
       < Routes >
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Home />} /> */}
+        <Route path="/" element={<Navigate to="/spotify" />} />
+        {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/spotify" element={<Spotify />}>
           <Route path='playlist' element={<SearchPlaylistWithLocalStorageCheck />} />
           <Route path='play' element={<PlaySongs />} />

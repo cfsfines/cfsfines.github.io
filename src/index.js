@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 // Parse the query parameter to get the initial path
-const initialPath = window.location.search ? decodeURIComponent(window.location.search.substring(1)) : '/';
+const initialPath = window.location.search ? decodeURIComponent(window.location.search.substring(1)) : '/spotify';
 
 root.render(
   <React.StrictMode>
