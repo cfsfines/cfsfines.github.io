@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
+// Parse the query parameter to get the initial path
+const initialPath = window.location.search ? decodeURIComponent(window.location.search.substring(1)) : '/';
+
 root.render(
   <React.StrictMode>
-    <HashRouter>
+    <BrowserRouter initialEntries={[initialPath]}>
       <App />
-    </HashRouter>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
