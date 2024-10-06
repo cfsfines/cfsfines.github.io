@@ -6,9 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Parse the query parameter to get the initial path
+const initialPath = window.location.search ? window.location.search.substring(1) : '/';
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
+    <BrowserRouter initialEntries={[initialPath]}>
       <App />
     </BrowserRouter>
   </React.StrictMode>
