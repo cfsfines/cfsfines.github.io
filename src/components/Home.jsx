@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useRef, useState } from "react";
 import HeroContainer from "./HeroContainer";
 import InfoContainer from "./InfoContainer";
-import {StyledCardContainer} from "./SharedStyles";
+import { StyledCardContainer } from "./SharedStyles";
 import ButtonContainer from "./ButtonContainer";
 import TitleContainer from "./TitleContainer";
 import AboutMe from "../assets/aboutme";
@@ -16,6 +16,7 @@ import exp2 from "../assets/proj-and-exp/exp2.json";
 import exp3 from "../assets/proj-and-exp/exp3.json";
 import eduMS from "../assets/education/eduMS.json";
 import eduBS from "../assets/education/eduBS.json";
+import { useNavigate } from "react-router-dom";
 
 const StyledCenterContainer = styled.div`
   text-align: center;
@@ -82,6 +83,17 @@ const NavElement = styled.a`
   }
 `;
 
+const InvisibleButton = styled.button`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+`;
+
 const Home = () => {
   const projList = [proj5, proj4, proj1, proj2, proj3];
   const expList = [exp1, exp2, exp3];
@@ -93,31 +105,30 @@ const Home = () => {
   const projectsRef = useRef(null);
   const experienceRef = useRef(null);
   const educationRef = useRef(null);
-  const scrollToRef = (ref) =>
-    window.scrollTo({ top: ref.current.offsetTop - 120, behavior: "smooth" });
+
+  const navigate = useNavigate();
+
+  const scrollToRef = (ref) => window.scrollTo({ top: ref.current.offsetTop - 120, behavior: "smooth" });
+
+  const handleButtonClick = () => {
+    navigate("/spotify");
+  };
   return (
     <>
+      <InvisibleButton onClick={handleButtonClick} />
       <NavHeader>
         <NavContainer>
           <div>
-            <NavElement onClick={() => scrollToRef(aboutMeRef)}>
-              About Me
-            </NavElement>
+            <NavElement onClick={() => scrollToRef(aboutMeRef)}>About Me</NavElement>
           </div>
           <div>
-            <NavElement onClick={() => scrollToRef(projectsRef)}>
-              Projects
-            </NavElement>
+            <NavElement onClick={() => scrollToRef(projectsRef)}>Projects</NavElement>
           </div>
           <div>
-            <NavElement onClick={() => scrollToRef(experienceRef)}>
-              Experience
-            </NavElement>
+            <NavElement onClick={() => scrollToRef(experienceRef)}>Experience</NavElement>
           </div>
           <div>
-            <NavElement onClick={() => scrollToRef(educationRef)}>
-              Education
-            </NavElement>
+            <NavElement onClick={() => scrollToRef(educationRef)}>Education</NavElement>
           </div>
         </NavContainer>
       </NavHeader>
@@ -132,17 +143,8 @@ const Home = () => {
 
         <StyledCardContainer>
           <div ref={projectsRef} />
-          <TitleContainer
-            title={"Projects"}
-            description={
-              "My ability to build high quality software and solutions with real-world applications"
-            }
-          />
-          <ButtonContainer
-            currProj={currProj}
-            updateCurrProj={updateCurrProj}
-            buttons={projList}
-          />
+          <TitleContainer title={"Projects"} description={"My ability to build high quality software and solutions with real-world applications"} />
+          <ButtonContainer currProj={currProj} updateCurrProj={updateCurrProj} buttons={projList} />
           <InfoContainer info={currProj} />
         </StyledCardContainer>
 
@@ -150,16 +152,8 @@ const Home = () => {
 
         <StyledCardContainer>
           <div ref={experienceRef} />
-          <TitleContainer
-            id="experience-jump"
-            title={"Experience"}
-            description={"My involvement in the office"}
-          />
-          <ButtonContainer
-            currProj={currExp}
-            updateCurrProj={updateCurrExp}
-            buttons={expList}
-          />
+          <TitleContainer id="experience-jump" title={"Experience"} description={"My involvement in the office"} />
+          <ButtonContainer currProj={currExp} updateCurrProj={updateCurrExp} buttons={expList} />
           <InfoContainer info={currExp} />
         </StyledCardContainer>
 
@@ -167,11 +161,7 @@ const Home = () => {
 
         <StyledCardContainer>
           <div ref={educationRef} />
-          <TitleContainer
-            id="education-jump"
-            title={"Education"}
-            description={"The foundation of my technical expertise"}
-          />
+          <TitleContainer id="education-jump" title={"Education"} description={"The foundation of my technical expertise"} />
           <InfoContainer info={eduMS} />
           <InfoContainer info={eduBS} />
         </StyledCardContainer>

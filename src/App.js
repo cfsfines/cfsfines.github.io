@@ -15,8 +15,8 @@ function App() {
     <>
       {location.pathname.startsWith('/spotify') && <BackgroundColor />}
       < Routes >
-        {/* <Route path="/" element={<Home />} /> */}
-        <Route path="/" element={<Navigate to="/spotify" />} />
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Navigate to="/spotify" />} /> */}
         {/* <Route path="/home" element={<Home />} /> */}
         <Route path="/spotify" element={<Spotify />}>
           <Route path='playlist' element={<SearchPlaylistWithLocalStorageCheck />} />
