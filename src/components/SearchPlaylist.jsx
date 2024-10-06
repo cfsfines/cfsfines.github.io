@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import loadSavedPlaylistData from "../services/sharedFunctions.js";
 import { TitleText, StyledSpotifyButton, GenericFlexContainer, SpotifyBodyContainer, InputField } from "./SharedStyles";
+import PlaylistCard from "./PlaylistCard.jsx";
 
 /*
     TODO: add type safety by creating interfaces of the entire return object.
@@ -115,11 +116,13 @@ const SearchPlaylist = ({ token }) => {
             />
             <StyledSpotifyButton onClick={handleClick}>Fetch Playlist</StyledSpotifyButton>
           </GenericFlexContainer>
-          <StyledSpotifyButton onClick={returnToHome}>Return</StyledSpotifyButton>
+          <StyledSpotifyButton margin="20px 0 0 0" width="auto" onClick={returnToHome}>
+            Return
+          </StyledSpotifyButton>
         </GenericFlexContainer>
         {playlistData && playlistData.id === inputValue && <p>Playlist already loaded!</p>}
         {error && (!playlistData || playlistData.id !== inputValue) && <p>Fetch Failed! {error.message}</p>}
-        {playlistData ? <p>Currently loaded playlist: {playlistData.name}</p> : <p>No playlist loaded!</p>}
+        {playlistData ? <PlaylistCard playlistData={playlistData}></PlaylistCard> : <p>No playlist loaded!</p>}
         {loading && <p>Loading...</p>}
       </SpotifyBodyContainer>
     </>
