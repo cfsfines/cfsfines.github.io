@@ -9,12 +9,9 @@ import { BackgroundColor } from './components/SharedStyles';
 const SearchPlaylistWithLocalStorageCheck = withLocalStorageCheck(SearchPlaylist);
 
 function App() {
-  const location = useLocation();
-
   return (
-    <>
-      {location.pathname.startsWith('/spotify') && <BackgroundColor />}
-      <Router>
+    <Router>
+      <ConditionalBackground>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/spotify" element={<Spotify />}>
@@ -22,7 +19,17 @@ function App() {
             <Route path="play" element={<PlaySongs />} />
           </Route>
         </Routes>
-      </Router>
+      </ConditionalBackground>
+    </Router>
+  );
+}
+
+function ConditionalBackground({ children }) {
+  const location = useLocation();
+  return (
+    <>
+      {location.pathname.startsWith('/spotify') && <BackgroundColor />}
+      {children}
     </>
   );
 }
