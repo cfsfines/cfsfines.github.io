@@ -2,7 +2,7 @@
   "name": "cfsfines.github.io",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://cfsfines.github.io/",
+  "homepage": "https://cfsfines.github.io",
   "dependencies": {
     "@styled-system/should-forward-prop": "^5.1.5",
     "@testing-library/jest-dom": "^5.17.0",
