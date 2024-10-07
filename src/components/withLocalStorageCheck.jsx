@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { SpotifyBodyContainer } from "./SharedStyles";
+import { GenericFlexContainer } from "./SharedStyles";
 
 const TOKEN_KEY = "whos-who-access-token";
 const client_id = "ae61067ae0e34694b49600ad8daa1b6d";
@@ -68,9 +68,9 @@ const withLocalStorageCheck = (WrappedComponent) => {
 
     if (authLoading) {
       return (
-        <SpotifyBodyContainer>
+        <GenericFlexContainer>
           <p>Fetching token...</p>
-        </SpotifyBodyContainer>
+        </GenericFlexContainer>
       );
     }
 

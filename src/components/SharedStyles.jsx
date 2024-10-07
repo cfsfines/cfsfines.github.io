@@ -2,24 +2,32 @@ import { styled, createGlobalStyle } from "styled-components";
 import { createShouldForwardProp } from "@styled-system/should-forward-prop";
 
 const shouldForwardProp = createShouldForwardProp([
-  "flexDirection",
-  "width",
-  "rowGap",
-  "position",
-  "top",
-  "left",
-  "transform",
-  "isSelected",
-  "isCorrect",
-  "showCorrect",
   "alignItems",
-  "marginTop",
-  "marginBottom",
-  "margin",
-  "gap",
   "backgroundColor",
-  "padding",
   "borderRadius",
+  "bottom",
+  "flexDirection",
+  "flexWrap",
+  "gap",
+  "height",
+  "isCorrect",
+  "isSelected",
+  "justifyContent",
+  "left",
+  "margin",
+  "marginBottom",
+  "marginTop",
+  "maxWidth",
+  "opacity",
+  "overflow",
+  "padding",
+  "position",
+  "rowGap",
+  "showCorrect",
+  "top",
+  "transform",
+  "whiteSpace",
+  "width",
 ]);
 
 export const BackgroundColor = createGlobalStyle`
@@ -54,6 +62,7 @@ export const GenericParagraphText = styled("p").withConfig({
   shouldForwardProp,
 })`
   margin: ${({ margin }) => margin || 0};
+  max-width: ${({ maxWidth }) => maxWidth || "100%"};
 `;
 
 // https://getcssscan.com/css-buttons-examples button 17
@@ -114,6 +123,7 @@ export const StyledSpotifyButton = styled("button").withConfig({
   shouldForwardProp,
 })`
   appearance: none;
+  align-items: center;
   background-color: ${({ isCorrect, isSelected, showCorrect }) => {
     if (showCorrect) {
       return "green";
@@ -129,22 +139,26 @@ export const StyledSpotifyButton = styled("button").withConfig({
   color: var(--button-text-color);
   cursor: pointer;
   display: flex;
+  flex: 1;
   font-family: var(--font-family);
   font-size: 16px;
   font-weight: 600;
+  height: ${({ height }) => height || "auto"};
   justify-content: center;
   line-height: normal;
   margin: ${({ margin }) => margin || 0};
   min-height: 60px;
   min-width: 0;
+  opacity: ${({ opacity }) => opacity || 1};
   outline: none;
-  padding: 16px 24px;
+  padding: ${({ padding }) => padding || "16px 24px"};
   text-align: center;
   text-decoration: none;
   touch-action: manipulation;
   transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
   user-select: none;
   -webkit-user-select: none;
+  white-space: ${({ whiteSpace }) => whiteSpace || "normal"};
   width: ${({ width }) => width || "100%"};
   will-change: transform;
 
@@ -166,47 +180,41 @@ export const StyledSpotifyButton = styled("button").withConfig({
 export const GenericFlexContainer = styled("div").withConfig({
   shouldForwardProp,
 })`
-  display: flex;
   align-items: ${({ alignItems }) => alignItems || "center"};
+  background-color: ${({ backgroundColor }) => backgroundColor || "transparent"};
+  border-radius: ${({ borderRadius }) => borderRadius || 0};
+  bottom: ${({ bottom }) => bottom || "auto"};
+  display: flex;
   flex-direction: ${({ flexDirection }) => flexDirection || "column"};
-  justify-content: space-evenly;
-  width: ${({ width }) => width || "auto"};
-  row-gap: 10px;
+  flex-wrap: ${({ flexWrap }) => flexWrap || "nowrap"};
   gap: ${({ gap }) => gap || 0};
-  top: ${({ top }) => top || "auto"};
+  height: ${({ height }) => height || "auto"};
+  justify-content: ${({ justifyContent }) => justifyContent || "space-evenly"};
   left: ${({ left }) => left || "auto"};
   margin: ${({ margin }) => margin || 0};
-  position: ${({ position }) => position || "static"};
-  transform: ${({ transform }) => transform || "none"};
-  background-color: ${({ backgroundColor }) => backgroundColor || "transparent"};
+  max-width: ${({ maxWidth }) => maxWidth || "none"};
+  overflow: ${({ overflow }) => overflow || "visible"};
   padding: ${({ padding }) => padding || 0};
-  border-radius: ${({ borderRadius }) => borderRadius || 0};
+  position: ${({ position }) => position || "static"};
+  row-gap: ${({ rowGap }) => rowGap || 0};
+  top: ${({ top }) => top || "auto"};
+  transform: ${({ transform }) => transform || "none"};
+  width: ${({ width }) => width || "auto"};
 `;
 
 export const GenericImage = styled("img").withConfig({
   shouldForwardProp,
 })`
   width: ${({ width }) => width || "auto"};
+  margin: ${({ margin }) => margin || 0};
   border-radius: ${({ borderRadius }) => borderRadius || 0};
-`;
-
-export const SpotifyBodyContainer = styled("div").withConfig({
-  shouldForwardProp,
-})`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  text-align: center;
-  row-gap: ${({ rowGap }) => rowGap || 0};
 `;
 
 /*
   https://copy-paste-css.com/form-input-text
 */
 export const InputField = styled.input`
+  flex: 1;
   background-color: #ffffff;
   border: 1px solid rgba(36, 28, 21, 0.3);
   border-radius: 2px;

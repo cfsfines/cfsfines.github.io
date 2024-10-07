@@ -1,10 +1,19 @@
 import { useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import loadSavedPlaylistData from "../services/sharedFunctions.js";
-import { Howl, Howler } from "howler";
-import { TitleText, StyledSpotifyButton, GenericFlexContainer, SpotifyBodyContainer } from "./SharedStyles";
+import { Howl } from "howler";
+import { TitleText, StyledSpotifyButton, GenericFlexContainer, GenericImage } from "./SharedStyles";
 import PausePlayButton from "./PausePlayButton.jsx";
 import ProgressBar from "./ProgressBar.jsx";
+import styled from "styled-components";
+
+const CenteredContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+`;
 
 const PlaySongs = () => {
   const navigate = useNavigate();
@@ -23,13 +32,13 @@ const PlaySongs = () => {
   // a list of track objects that are the current choices each round
   const [currChoices, setCurrChoices] = useState(null);
   // a track object that is the correct choice
-  const [currCorrectChoice, setCurrCorrectChoice] = useState({});
+  const [currCorrectChoice, setCurrCorrectChoice] = useState(null);
   // boolean to display the continue button
   const [showContinueButton, setShowContinueButton] = useState(true);
   // the text that will appear inside the continue button
   const [continueButtonText, setContunueButtonText] = useState("Begin");
   // the message that displays if an answer is correct or not
-  const [choiceMessage, setChoiceMessage] = useState("Good luck!");
+  const [choiceMessage, setChoiceMessage] = useState("Do you have what it takes?");
   // the timestamp of the song playhing, used for the progress bar
   const [currentTime, setCurrentTime] = useState(0);
   // boolean checking if the song is currently playing or not
@@ -143,8 +152,6 @@ const PlaySongs = () => {
   const startRound = () => {
     // stop the song from playing
     setIsPlaying(false);
-
-    console.log(currTrackList.length);
 
     // if there is no more songs, hide everything
     if (currTrackList.length === 1) {
@@ -285,7 +292,7 @@ const PlaySongs = () => {
   */
   const handleAnswer = (e) => {
     const selectedTrackName = e.target.value;
-    const isCorrect = selectedTrackName === currCorrectChoice.track.name;
+    const isCorrect = selectedTrackName === currCorrectChoice.track.artists[0].name;
 
     // if the selected choice is incorrect, reset the playlist
     if (!isCorrect) {
@@ -299,6 +306,11 @@ const PlaySongs = () => {
     disableChoiceButtons(true);
   };
 
+  // TODO: doublecheckanswers()
+  // if there is more than one artist on a correct track, loop through every artist
+  // compare with the names of the other choices
+  // if there is a match, set that track to be correct too.
+
   const disableChoiceButtons = (isDisabled) => {
     const buttons = document.querySelectorAll("button[name='songOption']");
     buttons.forEach((button) => (button.disabled = isDisabled));
@@ -306,15 +318,21 @@ const PlaySongs = () => {
 
   /*
     TODO:
-      - STYLING
+      - Wrap buttons around parent div for long title names
 
   */
 
   return (
     <>
-      <SpotifyBodyContainer rowGap="2em">
-        {audioComponents && (
-          <>
+      <CenteredContainer>
+        <GenericFlexContainer>
+          {showContinueButton && currTrackList.length !== 0 && (
+            <GenericFlexContainer margin="10px 0">
+              <TitleText>{choiceMessage}</TitleText>
+            </GenericFlexContainer>
+          )}
+
+          {audioComponents && (
             <GenericFlexContainer>
               <PausePlayButton
                 onClick={() => {
@@ -326,40 +344,41 @@ const PlaySongs = () => {
               <input type="range" min="0" max="1" step="0.01" value={volume} onChange={handleVolumeChange} />
               <ProgressBar id="progress" value={currentTime} max={currAudio?.duration()} onClick={handleProgressClick}></ProgressBar>
             </GenericFlexContainer>
-          </>
-        )}
+          )}
+          {currChoices && (
+            <GenericFlexContainer margin="50px" flexDirection="row" justifyContent="center" alignItems="stretch">
+              {currChoices.map((choice) => (
+                <StyledSpotifyButton
+                  name="songOption"
+                  key={`${choice.added_at}_${choice.track.artists[0].name}`}
+                  value={choice.track.artists[0].name}
+                  onClick={handleAnswer}
+                  isSelected={selectedChoice?.name === choice.track.artists[0].name}
+                  isCorrect={currCorrectChoice.track.artists[0].name === choice.track.artists[0].name}
+                  showCorrect={
+                    selectedChoice && !selectedChoice.isCorrect && currCorrectChoice.track.artists[0].name === choice.track.artists[0].name
+                  }
+                >
+                  {choice.track.artists[0].name}
+                </StyledSpotifyButton>
+              ))}
+            </GenericFlexContainer>
+          )}
 
-        {currChoices && (
-          <GenericFlexContainer flexDirection="row">
-            {currChoices.map((choice) => (
-              <StyledSpotifyButton
-                name="songOption"
-                key={`${choice.added_at}_${choice.track.name}`}
-                value={choice.track.name}
-                onClick={handleAnswer}
-                isSelected={selectedChoice?.name === choice.track.name}
-                isCorrect={currCorrectChoice.track.name === choice.track.name}
-                showCorrect={selectedChoice && !selectedChoice.isCorrect && currCorrectChoice.track.name === choice.track.name}
-              >
-                {choice.track.name}
-              </StyledSpotifyButton>
-            ))}
-          </GenericFlexContainer>
-        )}
-
-        {showContinueButton && currTrackList.length !== 0 && (
           <GenericFlexContainer>
-            <p>{choiceMessage}</p>
-            <StyledSpotifyButton onClick={startRound}>{continueButtonText}</StyledSpotifyButton>
+            {showContinueButton && currTrackList.length !== 0 && <StyledSpotifyButton onClick={startRound}>{continueButtonText}</StyledSpotifyButton>}
+            {showContinueButton && currTrackList.length !== 0 && currCorrectChoice && (
+              <GenericImage margin="20px 0" src={currCorrectChoice.track.album.images[1].url}></GenericImage>
+            )}
           </GenericFlexContainer>
-        )}
-        {!currCorrectChoice && isPlaylistDataLoaded && currTrackList.length === 1 && <TitleText>You've emptied the playlist. You win!</TitleText>}
+          {!currCorrectChoice && isPlaylistDataLoaded && currTrackList.length === 1 && <TitleText>You've emptied the playlist. You win!</TitleText>}
 
-        {!isPlaylistDataLoaded && <div>No playlist data found. Please set playlist data.</div>}
-        <GenericFlexContainer position="absolute" top="10px" left="50%" transform="translateX(-50%)">
-          <StyledSpotifyButton onClick={returnToHome}>Return</StyledSpotifyButton>
+          {!isPlaylistDataLoaded && <TitleText>No playlist data found. You can set the playlsit in the settings.</TitleText>}
+          <GenericFlexContainer margin="10px 0">
+            <StyledSpotifyButton onClick={returnToHome}>Exit</StyledSpotifyButton>
+          </GenericFlexContainer>
         </GenericFlexContainer>
-      </SpotifyBodyContainer>
+      </CenteredContainer>
     </>
   );
 };
