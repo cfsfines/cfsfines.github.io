@@ -1,0 +1,46 @@
+.carousel-container {
+  /* background-color: gray; */
+  padding: 50px 0;
+  display: flex;
+  position: relative;
+}
+
+.carousel-container::before,
+.carousel-container::after {
+  position: absolute;
+  top: 0;
+  width: 20%;
+  height: 100%;
+  content: "";
+  z-index: 1;
+}
+
+.carousel-container::before {
+  left: 0;
+  background: linear-gradient(to right, #212121, transparent);
+}
+
+.carousel-container::after {
+  right: 0;
+  background: linear-gradient(to left, #212121, transparent);
+}
+
+.carousel-slider {
+  display: flex;
+  flex-direction: row;
+  animation: slide 10s linear infinite;
+}
+
+.carousel-slider img {
+  margin: 0 50px;
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
+}

@@ -6,6 +6,14 @@ import { TitleText, StyledSpotifyButton, GenericFlexContainer, GenericImage } fr
 import PausePlayButton from "./PausePlayButton.jsx";
 import ProgressBar from "./ProgressBar.jsx";
 import styled from "styled-components";
+import { uniq } from "lodash";
+
+/*
+    TODO
+    Abnormal behavior if two options are of the same artist.
+    For some reason one extra option shows up and wont go away
+    Hopefully simply filtering out duplicate artists works out.
+*/
 
 const CenteredContainer = styled.div`
   display: flex;
@@ -99,7 +107,7 @@ const PlaySongs = () => {
     Filter out null preview urls
   */
   const filterTracks = useCallback(({ tracks: { items } }) => {
-    const filteredTracks = items.filter((item) => item.track.preview_url !== null);
+    const filteredTracks = items.filter((item) => item.track && item.track.preview_url);
     setCurrTrackList(filteredTracks);
   }, []);
 
@@ -306,21 +314,10 @@ const PlaySongs = () => {
     disableChoiceButtons(true);
   };
 
-  // TODO: doublecheckanswers()
-  // if there is more than one artist on a correct track, loop through every artist
-  // compare with the names of the other choices
-  // if there is a match, set that track to be correct too.
-
   const disableChoiceButtons = (isDisabled) => {
     const buttons = document.querySelectorAll("button[name='songOption']");
     buttons.forEach((button) => (button.disabled = isDisabled));
   };
-
-  /*
-    TODO:
-      - Wrap buttons around parent div for long title names
-
-  */
 
   return (
     <>
@@ -347,10 +344,10 @@ const PlaySongs = () => {
           )}
           {currChoices && (
             <GenericFlexContainer margin="50px" flexDirection="row" justifyContent="center" alignItems="stretch">
-              {currChoices.map((choice) => (
+              {currChoices.map((choice, index) => (
                 <StyledSpotifyButton
                   name="songOption"
-                  key={`${choice.added_at}_${choice.track.artists[0].name}`}
+                  key={`${choice.track.id}-${index}`}
                   value={choice.track.artists[0].name}
                   onClick={handleAnswer}
                   isSelected={selectedChoice?.name === choice.track.artists[0].name}

@@ -22,6 +22,10 @@ const Spotify = () => {
     navigate("/spotify/play");
   };
 
+  const goToPractice = () => {
+    navigate("/spotify/practice");
+  };
+
   return (
     <>
       {location.pathname === "/spotify" && (
@@ -30,10 +34,11 @@ const Spotify = () => {
             <GenericFlexContainer width="25em" rowGap="10px">
               <TitleText>Who's Who</TitleText>
               <GenericParagraphText margin="0 0 10px 0 ">remade in React!</GenericParagraphText>
-              <StyledSpotifyButton margin="0 0 10px 0" onClick={goToPlay}>
+              <StyledSpotifyButton onClick={goToPlay}>
                 Play
               </StyledSpotifyButton>
               <StyledSpotifyButton onClick={goToPlaylist}>Settings</StyledSpotifyButton>
+              <StyledSpotifyButton onClick={goToPractice}>React Practice</StyledSpotifyButton>
             </GenericFlexContainer>
             {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <ScrollingCarousel playlistData={loadedPlaylist}></ScrollingCarousel>}
           </GenericFlexContainer>

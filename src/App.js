@@ -1,10 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from "./components/Home";
 import Spotify from './components/Spotify';
 import SearchPlaylist from './components/SearchPlaylist';
 import PlaySongs from './components/PlaySongs';
 import withLocalStorageCheck from './components/withLocalStorageCheck';
 import { BackgroundColor } from './components/SharedStyles';
+import Practice from './components/practice/Practice';
 
 const SearchPlaylistWithLocalStorageCheck = withLocalStorageCheck(SearchPlaylist);
 
@@ -19,6 +20,7 @@ function App() {
         <Route path="/spotify" element={<Spotify />}>
           <Route path='playlist' element={<SearchPlaylistWithLocalStorageCheck />} />
           <Route path='play' element={<PlaySongs />} />
+          <Route path='practice' element={<Practice />} />
         </ Route>
       </Routes >
     </>
