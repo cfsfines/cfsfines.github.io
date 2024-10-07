@@ -11,7 +11,8 @@ const Spotify = () => {
 
   useEffect(() => {
     loadSavedPlaylistData(setLoadedPlaylist);
-  }, []);
+    console.log("loaded playlist");
+  }, [location]);
 
   const goToPlaylist = () => {
     navigate("/spotify/playlist");
@@ -33,7 +34,6 @@ const Spotify = () => {
               </StyledSpotifyButton>
               <StyledSpotifyButton onClick={goToPlaylist}>Settings</StyledSpotifyButton>
             </GenericFlexContainer>
-
             {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <ScrollingCarousel playlistData={loadedPlaylist}></ScrollingCarousel>}
           </GenericFlexContainer>
         </>

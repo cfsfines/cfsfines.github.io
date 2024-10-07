@@ -373,7 +373,7 @@ const PlaySongs = () => {
           </GenericFlexContainer>
           {!currCorrectChoice && isPlaylistDataLoaded && currTrackList.length === 1 && <TitleText>You've emptied the playlist. You win!</TitleText>}
 
-          {!isPlaylistDataLoaded && <TitleText>No playlist data found. You can set the playlsit in the settings.</TitleText>}
+          {!isPlaylistDataLoaded && <TitleText>No playlist data found. You can set the playlist in the settings.</TitleText>}
           <GenericFlexContainer margin="10px 0">
             <StyledSpotifyButton onClick={returnToHome}>Exit</StyledSpotifyButton>
           </GenericFlexContainer>

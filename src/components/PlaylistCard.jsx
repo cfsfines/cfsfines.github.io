@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import { GenericFlexContainer, TitleText, GenericParagraphText, GenericImage, StyledSpotifyButton } from "./SharedStyles";
 import he from "he";
-import styled, { keyframes, css } from "styled-components";
 
 const PlaylistCard = ({ playlistData, showCopyID = false, isIdCopied, setIsIdCopied, animationDirection }) => {
   const {
