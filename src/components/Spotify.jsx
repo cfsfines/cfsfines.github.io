@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { TitleText, StyledSpotifyButton, GenericFlexContainer } from "./SharedStyles";
+import { TitleText, StyledSpotifyButton, GenericFlexContainer, GenericParagraphText } from "./SharedStyles";
 import { useEffect, useState } from "react";
 import loadSavedPlaylistData from "../services/sharedFunctions.js";
 import ScrollingCarousel from "./ScrollingCarousel.jsx";
@@ -28,7 +28,8 @@ const Spotify = () => {
         <>
           <GenericFlexContainer height="100vh">
             <GenericFlexContainer width="25em" rowGap="10px">
-              <TitleText margin="0 0 40px 0">Who's Who</TitleText>
+              <TitleText>Who's Who</TitleText>
+              <GenericParagraphText margin="0 0 10px 0 ">remade in React!</GenericParagraphText>
               <StyledSpotifyButton margin="0 0 10px 0" onClick={goToPlay}>
                 Play
               </StyledSpotifyButton>

@@ -38,7 +38,7 @@ const PlaySongs = () => {
   // the text that will appear inside the continue button
   const [continueButtonText, setContunueButtonText] = useState("Begin");
   // the message that displays if an answer is correct or not
-  const [choiceMessage, setChoiceMessage] = useState("Do you have what it takes?");
+  const [choiceMessage, setChoiceMessage] = useState("Guess the correct artist! Do you have what it takes?");
   // the timestamp of the song playhing, used for the progress bar
   const [currentTime, setCurrentTime] = useState(0);
   // boolean checking if the song is currently playing or not
