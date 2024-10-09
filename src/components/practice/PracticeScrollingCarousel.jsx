@@ -9,6 +9,12 @@ const PracticeScrollingCarousel = ({ loadedPlaylist }) => {
   const [sampleImages, setSampleImages] = useState([]);
 
   useEffect(() => {
+    /*
+      document.querySelector("class-name-here") specifies the name of the class
+      .cloneNode(true) will create a copy of that element
+      document.querySelector("class-name-here").appendChold("duped-object")
+        - adds the node to the end of its list of children
+    */
     const dupes = document.querySelector(".carousel-slider").cloneNode(true);
     document.querySelector(".carousel-container").appendChild(dupes);
   });

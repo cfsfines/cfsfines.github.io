@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import loadSavedPlaylistData from "../../services/sharedFunctions.js";
 import PracticeScrollingCarousel from "./PracticeScrollingCarousel.jsx";
 import PracticeButtonCarousel from "./PracticeButtonCarousel.jsx";
+import PracticeBlind from "./PracticeBlind.jsx";
 
 const Practice = () => {
   const navigate = useNavigate();
@@ -19,8 +20,9 @@ const Practice = () => {
   return (
     <>
       <button onClick={goBack}>back</button>
-      {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <PracticeScrollingCarousel loadedPlaylist={loadedPlaylist}></PracticeScrollingCarousel>}
-      {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <PracticeButtonCarousel loadedPlaylist={loadedPlaylist}></PracticeButtonCarousel>}
+      {/* {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <PracticeScrollingCarousel loadedPlaylist={loadedPlaylist}></PracticeScrollingCarousel>} */}
+      {/* {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <PracticeButtonCarousel loadedPlaylist={loadedPlaylist}></PracticeButtonCarousel>} */}
+      {loadedPlaylist && loadedPlaylist.tracks.items.length >= 10 && <PracticeBlind loadedPlaylists={loadedPlaylist}></PracticeBlind>}
     </>
   );
 };

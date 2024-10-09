@@ -1,10 +1,24 @@
+/* 
+the main container of the carousel slider must be:
+  - flex: for the duplicate images being appended to the inner div
+  - position relative: for the :before and :after pseudo class' position 
+    and size to be reletive to its parent size
+*/
 .carousel-container {
-  /* background-color: gray; */
   padding: 50px 0;
   display: flex;
   position: relative;
 }
 
+/*
+both :before and :after pseudo containers should be the following:
+  - position absolute
+  - top: no margin offset and at the complete top of its parent
+  - width: how wide you want to fade effect to be
+  - height: the full height of its parent
+  - content: required to be an empty string to display in the first place
+  - z index: to be placed on top of all elements
+*/
 .carousel-container::before,
 .carousel-container::after {
   position: absolute;
@@ -15,26 +29,51 @@
   z-index: 1;
 }
 
+/*
+  left: the left most side of its containing parent
+  background: linear gradient
+    - the direction the gradient does to followed by the 
+      color it starts with and the color it ends with
+    - in this case its from our dark theme to transparent
+*/
 .carousel-container::before {
   left: 0;
   background: linear-gradient(to right, #212121, transparent);
 }
 
+/*
+  same as above but for right
+*/
 .carousel-container::after {
   right: 0;
   background: linear-gradient(to left, #212121, transparent);
 }
 
+
+/*
+  display flex
+  flex-direction row
+    - so its contents will stack horizontally from left to right and not vertically from top to bottom
+  animation
+    - the animation created below, with the properties of its name, duration, timing-function, and iteration count
+*/
 .carousel-slider {
   display: flex;
   flex-direction: row;
   animation: slide 10s linear infinite;
 }
 
+/*
+  scaling of the contents of what is being scrolled
+*/
 .carousel-slider img {
   margin: 0 50px;
 }
 
+/*
+  starting FROM its base position
+  TO -100% (left), which is basically off screen.
+*/
 @keyframes slide {
   from {
     transform: translateX(0);
