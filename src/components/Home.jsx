@@ -92,6 +92,7 @@ const InvisibleButton = styled.button`
   background: transparent;
   border: none;
   cursor: pointer;
+  z-index: 2;
 `;
 
 const Home = () => {
